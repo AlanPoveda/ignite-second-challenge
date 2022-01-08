@@ -11,19 +11,15 @@ interface GenreResponseProps {
   title: string;
 }
 
-interface IdProps {
-  id: number
+interface SideBarProps {
+  id: number;
+  onSelectId: (id: number)=>void;
 }
 
-export function SideBar() {
-  // Complete aqui
-  const [selectedGenreId, setSelectedGenreId] = useState(1);
+export function SideBar({ id, onSelectId}: SideBarProps) {
+
   const [genres, setGenres] = useState<GenreResponseProps[]>([]);
 
-  
-  function handleClickButton(id: number) {
-    setSelectedGenreId(id);
-  }
 
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then(response => {
@@ -44,8 +40,8 @@ export function SideBar() {
               key={String(genre.id)}
               title={genre.title}
               iconName={genre.name}
-              onClick={() => handleClickButton(genre.id)}
-              selected={selectedGenreId === genre.id}
+              onClick={() => onSelectId(genre.id)}
+              selected={id === genre.id}
             />
           ))}
         </div>
